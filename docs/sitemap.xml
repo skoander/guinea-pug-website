@@ -3,16 +3,16 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>guineapug.com/</loc>
+    <loc>http://guineapug.com/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>guineapug.com/categories/</loc>
+    <loc>http://guineapug.com/categories/</loc>
   </url>
   
   <url>
-    <loc>guineapug.com/tags/</loc>
+    <loc>http://guineapug.com/tags/</loc>
   </url>
   
 </urlset>
