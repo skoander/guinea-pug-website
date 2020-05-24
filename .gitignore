@@ -1,4 +1,4 @@
-_site/
-.sass-cache/
-.jekyll-cache/
-.jekyll-metadata
+/.idea
+.DS_Store
+hugo.exe
+resources
