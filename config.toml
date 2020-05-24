@@ -1,4 +1,4 @@
-baseURL = "http://guineapug.com"
+baseURL = "https://guineapug.com"
 languageCode = "en-us"
 title = "My New Hugo Site"
 publishDir = "docs"
