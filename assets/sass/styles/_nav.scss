@@ -1,0 +1,19 @@
+.site-header {
+    background-color: rgba($primary, .85);
+    
+    a {
+        color: rgba($white, .5);
+        padding: 1rem;
+        transition: ease-in-out color .15s;
+
+        &:hover {
+            color: $white;
+            text-decoration: none;
+        }
+
+        &.navbar-brand {
+            padding: 0.5rem;
+        }
+    }
+    
+}
