@@ -1,7 +1,27 @@
 .masthead {
-    height: 100vh;
-    min-height: 500px;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+  height: 100vh;
+  min-height: 500px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-blend-mode: overlay;
+
+  color: $white;
+
+  .store-link-list{
+
+    li {
+      border: none;
+      background: none;
+
+      a {
+        display: inline-block; 
+        img {
+          border: 1px solid $secondary;
+          border-radius: 6px;
+        }
+      }
+    }
+    
   }
+}

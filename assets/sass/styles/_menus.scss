@@ -1,9 +1,13 @@
-.site-header {
-    background-color: rgba($primary, .85);
+.site-header, .sub-footer {
+    background-color: rgba($primary, 1);
     
-    a {
+    a, p {
         color: rgba($white, .5);
         padding: 1rem;
+        margin-bottom: 0;
+    }
+    
+    a {
         transition: ease-in-out color .15s;
 
         &:hover {
@@ -16,4 +20,10 @@
         }
     }
     
+}
+
+.breadcrumb {
+    background: none;
+    padding-left: 0;
+    padding-right: 0;
 }
