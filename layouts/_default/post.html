@@ -3,9 +3,11 @@
   <head>
     <meta charset="utf-8">
     <title>{{ block "title" . }}
-      Guinea Pug - {{ .Title }}
+        Guinea Pug - {{ .Title }}
     {{ end }}</title>
     {{ $style := resources.Get "sass/main.scss" | toCSS | minify }}
+
+    <meta name="description" content="{{.Params.Summary}}">
     <link rel="stylesheet" href="{{ $style.Permalink }}">
   </head>
   <body>
@@ -14,9 +16,15 @@
         {{ partial "breadcrumbs.html" . }}
 
         <div class="container mt-5">
-            <div class="col-10">
-                <h1>{{.Title}}</h1>
-                <p>{{.Content}}</p>
+            <div class="row">
+                <div class="col-10">
+                    <h1>{{.Title}}</h1>
+                    <p class="lead">
+                        by {{.Params.Author}}
+                    </p>
+                    <p>Posted on {{dateFormat "Monday, Jan 2, 2020" .Date}}</p>
+                    <p class="pt-5">{{.Content}}</p>
+                </div>
             </div>
 
         </div>

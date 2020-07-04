@@ -14,3 +14,11 @@ a {
         text-decoration: none;
     }
 }
+
+pre {
+    color: $primary;
+    font-family: monospace;
+    background-color: rgb(202, 202, 202);
+    padding: 2rem;
+    overflow-x: auto;
+}
