@@ -1,34 +1,8 @@
 {{ define "main" }}
 <main aria-role="main">
-  {{ partial "nav.html" . }}
-    <header class="masthead" style="background-image: url({{.Params.bgImage}}), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5));;">
-      <div class="container h-100">
-        <div class="row h-100 align-items-center">
-          <div class="col-md-6 offset-md-3 col-sm-12 text-center">
-            <h1>Guinea Pug</h1>
-            <p>{{.Params.subtitle}}</p>
-
-            <ul class="list-group store-link-list">
-              <li class="list-group-item">
-                <a href='http://play.google.com/store/?utm_source=guinea_pug_website&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'>
-                  {{ $resource := resources.Get "img/googleplay.jpg" | minify}}
-                  {{ $image := $resource.Resize "x80" }}
-                  <img class="img-fluid" alt='Get it on Google Play' src='{{$image.Permalink}}'/></a>
-              </li>
-              <li class="list-group-item">
-                <a href="https://apps.apple.com/us/app/quantum-tiqtaqtoe/id1466580680?mt=8">
-                  {{ $resource := resources.Get "img/appstore.png" | minify}}
-                  {{ $image := $resource.Resize "x80" }}
-                  <img class="img-fluid" src="{{$image.Permalink}}" alt="Get it in the App Store">
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </header>
-  
-  
+    {{ partial "nav.html" . }}
+    {{ partial "masthead.html" . }}
+    {{ partial "leaderboard.html" . }}
 </main>
 {{ end }}
 

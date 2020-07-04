@@ -3,7 +3,7 @@
 
         <a class="navbar-brand mr-auto" href="#" aria-label="Logo">
             {{ $logo := resources.Get "img/gp_logo.svg" | minify}}
-            <img src="{{ $logo.Permalink }}" alt="">
+            <img class="img-fluid" src="{{ $logo.Permalink }}" alt="">
           </a>
     
       <a class="d-none d-md-inline-block" href="#">Press kit</a>
