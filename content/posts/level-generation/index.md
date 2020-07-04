@@ -4,6 +4,7 @@ date: 2020-07-02T23:54:32+02:00
 author: "Evert van Nieuwenburg"
 draft: false
 layout: "post"
+mathjax: true
 ---
 
 ### 1\. Intro
@@ -64,7 +65,7 @@ All-in-all this is just a directed random walk, and various extensions are possi
 {{< figure src="RandomPaths.png#center" height=400 caption="Figure 3: Random segments generated using the path-based method described in the article. Depending on the difficulty, and also on the size of the segment of course, the number of random paths can be adjusted.">}}
 
 ### 4\. Random segments with patched-up holes
-The other type of segments in Guinea Pug is initially generated entirely randomly like in Fig 1. What is left then is to make sure no impossible gaps are present. We’ve concluded that gaps of size 3 are impossible with the current player mechanic, and that gaps of size 2 are possible with enough speed. For playability and to be able to make things easier based on difficulty settings, we use a variable minimal_gap_size to generate segments with denser or less dense tile coverings. We could for example set the minimal_gap_size to sqrt(2), so that diagonal gaps of 1 tile are the largest that occur.
+The other type of segments in Guinea Pug is initially generated entirely randomly like in Fig 1. What is left then is to make sure no impossible gaps are present. We’ve concluded that gaps of size 3 are impossible with the current player mechanic, and that gaps of size 2 are possible with enough speed. For playability and to be able to make things easier based on difficulty settings, we use a variable minimal_gap_size to generate segments with denser or less dense tile coverings. We could for example set the minimal_gap_size to $\sqrt{2}$, so that diagonal gaps of 1 tile are the largest that occur.
 
 To fix those gaps, we have to scan our segment and for every tile deduce what the shortest gap to another tile in the forward direction is. If this gap is larger than the minimal, we will have to add a tile in a location that makes this minimal gap at most minimal_gap_size. The pseudo-code for how we do that would be something like this:
 
@@ -117,16 +118,16 @@ func DistanceToNearestTile(int r, int t)
 }
 {{< / highlight >}}
 
-Finally, the fixed example of Fig 1, with a minimal_gap_size set to sqrt(2) is shown next in in Fig 4.
+Finally, the fixed example of Fig 1, with a minimal_gap_size set to $\sqrt{2}$ is shown next in in Fig 4.
 
-{{< figure src="PatchedRandom.png#center" height=400 caption="Figure 4: The random segment from Figure 1, but now with gaps larger than sqrt(2) filled with new tiles. This way, there is a guaranteed path for the player with gaps that are never larger than sqrt(2).">}}
+{{< figure src="PatchedRandom.png#center" height=400 caption="Figure 4: The random segment from Figure 1, but now with gaps larger than $\sqrt{2}$ filled with new tiles. This way, there is a guaranteed path for the player with gaps that are never larger than $\sqrt{2}$.">}}
 
 
 
 ### 5\. Bonus: Boost placement
-Now that we have segments, we can spend a few minutes describing how we place boosts at locations that make sense. Boost placement is done using our ‘special-tile-distributor’, which is our fancy name for a pattern recognizer. Essentially, the distributor scans a segment for particular configurations of tiles and holes where boost make sense and are fun. For example, if the player doesn’t have full speed and isn’t able to make a gap of size 2 (maybe because they had to slow down for a more skill-based segment), having a boost tile right at the edge of that size-2 gap comes in very handy! Likewise, we have boosts that point diagonally over 2 `$\sqrt{2}$` gaps too, like in Figure 5.
+Now that we have segments, we can spend a few minutes describing how we place boosts at locations that make sense. Boost placement is done using our ‘special-tile-distributor’, which is our fancy name for a pattern recognizer. Essentially, the distributor scans a segment for particular configurations of tiles and holes where boost make sense and are fun. For example, if the player doesn’t have full speed and isn’t able to make a gap of size 2 (maybe because they had to slow down for a more skill-based segment), having a boost tile right at the edge of that size-2 gap comes in very handy! Likewise, we have boosts that point diagonally over $2\sqrt{2}$ gaps too, like in Figure 5.
 
-{{< figure src="BoostPlacement.png#center" height=400 caption="Figure 5: A few example boost placements, after detecting size-2 gaps and size-2*sqrt(2) gaps. The possibilities are endless, and only require writing a specific pattern detector.">}}
+{{< figure src="BoostPlacement.png#center" height=400 caption="Figure 5: A few example boost placements, after detecting size-2 gaps and size-$2\sqrt{2}$ gaps. The possibilities are endless, and only require writing a specific pattern detector.">}}
 
 Lastly, we should mention that all of these boost placements also involve collectibles. This gives the player a good incentive to use them, and we in turn make good use of this by having just a few special placements of boosts that encourage the player to take a risk and get boosted off-of the level… ;)
 

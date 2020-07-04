@@ -7,13 +7,14 @@
     {{ end }}</title>
     {{ $style := resources.Get "sass/main.scss" | toCSS | minify }}
 
+
     <meta name="description" content="{{.Params.Summary}}">
     <link rel="stylesheet" href="{{ $style.Permalink }}">
 
-    <script type="text/javascript"
-      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-    </script>
+    {{ if .Params.mathjax }}{{ partial "mathjax.html" . }}{{ end }}
+
   </head>
+
   <body>
     <main aria-role="main">
         {{ partial "nav.html" . }}
@@ -35,4 +36,5 @@
 
     </main>
   </body>
+
 </html>
