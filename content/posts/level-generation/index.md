@@ -16,7 +16,7 @@ To give the player a fair chance however, those gaps shouldn’t be too large. A
 ### 2\. The Basics
 The levels in Guinea Pug are generated as multiple segments, and each segment is a lattice of some size. So for sake of simplicity, let’s fix that size so that each segment is a 7x14 grid (7 tiles wide and 14 tiles long). A segment starts out empty, and then gets populated with tiles on which the player can hop. In practice we use a function GenerateRandomRow() for that, which for each row randomly selects the number of non-empty tiles and their locations. Figure 1 below demonstrates what such a randomly filled segment looks like.
 
-{{< figure src="FullyRandom.png" width=300 caption="Figure 1: Starting with an entirely empty segment (left) of size 7x14, generating a random filling of tiles could result in the fully random segment shown on the right. For each of the 14 rows, a function GenerateRandomRow() determines how many non-empty tiles the row will have and then randomly selects those locations in the row." >}}
+{{< figure src="FullyRandom.png" width=400 caption="Figure 1: Starting with an entirely empty segment (left) of size 7x14, generating a random filling of tiles could result in the fully random segment shown on the right. For each of the 14 rows, a function GenerateRandomRow() determines how many non-empty tiles the row will have and then randomly selects those locations in the row." >}}
 
 
 The player in Guinea Pug has controls that allow it to hop over gaps of size 1, but gaps of size 2 are only doable once enough speed has been built up. Gaps of size 3 are impossible, and the game therefore requires skill on the player’s side to quickly plan ahead and avoid such routes that involve gaps of size 3.
@@ -57,17 +57,11 @@ while (currentDistance < length)
 
 Let’s quickly go over the essence of this code. We start at a random location in the first row (i.e. row 1 out of 14), and take size-1 steps in the forward, left, right or forward diagonal directions. Now, we could keep track of which direction we took a step in so that in the next step we don’t backtrack to the previous location. Incidentally though, as long as we don’t take steps backwards, re-visiting tiles by moving left and right (or W and E) is actually fine and results in wider paths overall. We just have to make sure that on average you move forward so that you reach the end of the segment. Figure 2 shows such a randomly generated path.
 
-![Figure2](../../img/OnePath.png)
-FIgure 2: A single random path, generated through a simple random walk with an average forward direction per step (and never a step backwards, although left&right backtracking is allowed).
-
+{{< figure src="OnePath.png" width=400 caption="Figure 2: A single random path, generated through a simple random walk with an average forward direction per step (and never a step backwards, although left&right backtracking is allowed).">}}
 
 All-in-all this is just a directed random walk, and various extensions are possible. For Guinea Pug however, we kept to the basics and instead complete these types of segments by generating multiple paths, so that there isn’t just a single strand to follow. This was important for us because we’re going to have special tiles like boosts that can boost the player off of the track. Having a single strand that happens to have a few boost tiles one after the other becomes unfair again. A few examples of completed segments of this type are shown in Figure 3.
 
-![Figure3](../../img/RandomPaths.png)
-Figure 3: Random segments generated using the path-based method described in the article. Depending on the difficulty, and also on the size of the segment of course, the number of random paths can be adjusted.
-
-
-
+{{< figure src="RandomPaths.png" width=400 caption="Figure 3: Random segments generated using the path-based method described in the article. Depending on the difficulty, and also on the size of the segment of course, the number of random paths can be adjusted.">}}
 
 ### 4\. Random segments with patched-up holes
 The other type of segments in Guinea Pug is initially generated entirely randomly like in Fig 1. What is left then is to make sure no impossible gaps are present. We’ve concluded that gaps of size 3 are impossible with the current player mechanic, and that gaps of size 2 are possible with enough speed. For playability and to be able to make things easier based on difficulty settings, we use a variable minimal_gap_size to generate segments with denser or less dense tile coverings. We could for example set the minimal_gap_size to sqrt(2), so that diagonal gaps of 1 tile are the largest that occur.
@@ -125,18 +119,16 @@ func DistanceToNearestTile(int r, int t)
 
 Finally, the fixed example of Fig 1, with a minimal_gap_size set to sqrt(2) is shown next in in Fig 4.
 
-![Figure4](../../img/PatchedRandom.png)
-Figure 4: The random segment from Figure 1, but now with gaps larger than sqrt(2) filled with new tiles. This way, there is a guaranteed path for the player with gaps that are never larger than sqrt(2).
+{{< figure src="PatchedRandom.png" width=400 caption="Figure 4: The random segment from Figure 1, but now with gaps larger than sqrt(2) filled with new tiles. This way, there is a guaranteed path for the player with gaps that are never larger than sqrt(2).">}}
+
+
 
 ### 5\. Bonus: Boost placement
 Now that we have segments, we can spend a few minutes describing how we place boosts at locations that make sense. Boost placement is done using our ‘special-tile-distributor’, which is our fancy name for a pattern recognizer. Essentially, the distributor scans a segment for particular configurations of tiles and holes where boost make sense and are fun. For example, if the player doesn’t have full speed and isn’t able to make a gap of size 2 (maybe because they had to slow down for a more skill-based segment), having a boost tile right at the edge of that size-2 gap comes in very handy! Likewise, we have boosts that point diagonally over 2sqrt(2) gaps too, like in Figure 5.
 
 
 
-
-![Figure5](../../img/BoostPlacement.png)
-Figure 5: A few example boost placements, after detecting size-2 gaps and size-2*sqrt(2) gaps. The possibilities are endless, and only require writing a specific pattern detector.
-
+{{< figure src="BoostPlacement.png" width=400 caption="Figure 5: A few example boost placements, after detecting size-2 gaps and size-2*sqrt(2) gaps. The possibilities are endless, and only require writing a specific pattern detector.">}}
 
 Lastly, we should mention that all of these boost placements also involve collectibles. This gives the player a good incentive to use them, and we in turn make good use of this by having just a few special placements of boosts that encourage the player to take a risk and get boosted off-of the level… ;)
 
