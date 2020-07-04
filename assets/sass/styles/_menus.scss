@@ -1,18 +1,10 @@
 .site-header, .sub-footer {
     a, p {
-        color: rgba($white, .5);
         padding: 1rem;
         margin-bottom: 0;
     }
     
     a {
-        transition: ease-in-out color .15s;
-
-        &:hover {
-            color: $white;
-            text-decoration: none;
-        }
-
         &.navbar-brand {
             padding: 0.5rem;
             width: 150px;

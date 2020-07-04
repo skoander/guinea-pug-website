@@ -1,3 +1,16 @@
 h1, h2, h3, h4, h5, h6 {
     font-family: $font-family-heading;
 }
+
+a {
+    color: rgba($white, .5);
+}
+
+a {
+    transition: ease-in-out color .15s;
+
+    &:hover {
+        color: $white;
+        text-decoration: none;
+    }
+}
