@@ -1,10 +1,9 @@
 ---
 title: "Level Generation"
 date: 2020-07-02T23:54:32+02:00
-draft: true
-layout: "post"
 author: "Evert van Nieuwenburg"
-summary: "Short summary"
+draft: false
+layout: "post"
 ---
 
 ### 1\. Intro
@@ -14,12 +13,10 @@ Guinea Pug is an “endless runner” game, with a procedurally generated level 
 
 To give the player a fair chance however, those gaps shouldn’t be too large. And with random generation of tiles in a grid, there is a chance that too-large gaps occur. Now one might think that these are rare enough and the player would eventually ‘lose’ anyway, but this would be incredibly frustrating if it were to happen when you *finally* get far into the level. So that brings us to the topic of this post: how to generate playable, grid-based levels with maximum gap sizes.
 
-
 ### 2\. The Basics
 The levels in Guinea Pug are generated as multiple segments, and each segment is a lattice of some size. So for sake of simplicity, let’s fix that size so that each segment is a 7x14 grid (7 tiles wide and 14 tiles long). A segment starts out empty, and then gets populated with tiles on which the player can hop. In practice we use a function GenerateRandomRow() for that, which for each row randomly selects the number of non-empty tiles and their locations. Figure 1 below demonstrates what such a randomly filled segment looks like.
 
-![Figure1](../../img/FullyRandom.png)
-Figure 1: Starting with an entirely empty segment (left) of size 7x14, generating a random filling of tiles could result in the fully random segment shown on the right. For each of the 14 rows, a function GenerateRandomRow() determines how many non-empty tiles the row will have and then randomly selects those tiles’ locations in the row.
+{{< figure src="FullyRandom.png" width=300 caption="Figure 1: Starting with an entirely empty segment (left) of size 7x14, generating a random filling of tiles could result in the fully random segment shown on the right. For each of the 14 rows, a function GenerateRandomRow() determines how many non-empty tiles the row will have and then randomly selects those locations in the row." >}}
 
 
 The player in Guinea Pug has controls that allow it to hop over gaps of size 1, but gaps of size 2 are only doable once enough speed has been built up. Gaps of size 3 are impossible, and the game therefore requires skill on the player’s side to quickly plan ahead and avoid such routes that involve gaps of size 3.
