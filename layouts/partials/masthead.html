@@ -1,0 +1,32 @@
+<header class="masthead">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-5 col-sm-12">
+          <h1>Guinea Pug</h1>
+          <p>{{.Params.subtitle}}</p>
+
+          <ul class="list-group store-link-list list-group-horizontal mt-5 mb-5">
+            <li class="list-group-item">
+              <a href=''>
+                {{ $resource := resources.Get "img/googleplay.jpg" | minify}}
+                {{ $image := $resource.Resize "x80" }}
+                <img class="img-fluid" alt='Get it on Google Play' src='{{$image.Permalink}}'/></a>
+            </li>
+            <li class="list-group-item">
+              <a href="">
+                {{ $resource := resources.Get "img/appstore.png" | minify}}
+                {{ $image := $resource.Resize "x80" }}
+                <img class="img-fluid" src="{{$image.Permalink}}" alt="Get it in the App Store">
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="col-md-7 col-sm-12">
+          <div class="embed-responsive embed-responsive-16by9">
+            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/NpEaa2P7qZI?rel=0" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
