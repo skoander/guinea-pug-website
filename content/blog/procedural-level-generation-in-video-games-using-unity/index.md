@@ -1,5 +1,5 @@
 ---
-title: "Level Generation"
+title: "Procedural level generation in video games using Unity"
 date: 2020-07-02T23:54:32+02:00
 author: "Evert van Nieuwenburg"
 draft: false

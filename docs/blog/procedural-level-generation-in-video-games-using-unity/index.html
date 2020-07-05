@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>
+        Guinea Pug - Procedural level generation in video games using Unity
+    </title>
+    <meta name="description" content="">
+        
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171531320-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-171531320-1');
+    </script>
+    
+    <script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+           extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    }
+    });
+    MathJax.Hub.Queue(function() {
+      
+      
+      
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i = 0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  
+    MathJax.Hub.Config({
+    
+    TeX: { equationNumbers: { autoNumber: "AMS" } }
+    });
+  </script>
+  
+  
+     
+     <link rel="stylesheet" href="https://guineapug.com/sass/main.min.css">
+  </head>
+
+  <body>
+    <main aria-role="main">
+        <nav class="site-header">
+    <div class="container-lg d-flex flex-column flex-lg-row">
+
+        <a class="navbar-brand mr-auto" href="#" aria-label="Logo">
+            
+            <img class="img-fluid" src="https://guineapug.com/img/gp_logo.min.svg" alt="">
+          </a>
+    
+      <a class="d-none d-lg-inline-block" href="#">Blog</a>
+      <a class="d-none d-lg-inline-block" href="#">Press kit</a>
+      <a class="d-none d-lg-inline-block" href="#">About</a>
+      <a class="d-none d-lg-inline-block" href="#">Contact</a>
+    </div>
+</nav>
+        <nav aria-label="breadcrumb">
+<div class="container-lg d-flex flex-column flex-md-row">
+<ol  class="breadcrumb">
+    
+  
+  
+  
+  
+  
+
+  
+  <li class="breadcrumb-item">
+    <a href="https://guineapug.com/">Home</a>
+  </li>
+  
+
+  
+  
+
+  
+  <li class="breadcrumb-item">
+    <a href="https://guineapug.com/blog/">Blog</a>
+  </li>
+  
+
+  
+  
+
+  
+  <li class="breadcrumb-item active">
+    Procedural level generation in video games using Unity
+    
+  </li>
+  
+
+  
+  </ol>
+  
+</div>
+</nav>
+
+        <div class="container-lg">
+            <div class="row">
+                <div class="col-xs-12 col-lg-8 offset-lg-2 content-text-container">
+                    <h1>Procedural level generation in video games using Unity</h1>
+                    <p class="lead intro">
+                        by Evert van Nieuwenburg
+                    </p>
+                    <p class="intro">Posted on Thursday, Jul 2, 2020</p>
+                    <h3 id="1-intro">1. Intro</h3>
+<p>At the end of March this year, we spontaneously decided to participate in the 46th edition of Ludum Dare. If you’ve never heard of LD, you should know that it is one of the best-known (bi-)annual game jams. In a game jam, you are given X amount of time (in our case, 72 hours) to create a game from scratch. So in April 2020 &ndash; we did: meet Guinea Pug.</p>
+<p>Guinea Pug is an “endless runner” game, with a procedurally generated level that has obstacles and special effects. It’s more of what I like to call an “endless hopper”, where the player controls a ragdoll pug suspended in a stasis field (yes, you read that right) and is tasked with hopping around on tiles whilst avoiding holes and gaps.</p>
+<p>To give the player a fair chance however, those gaps shouldn’t be too large. And with random generation of tiles in a grid, there is a chance that too-large gaps occur. Now one might think that these are rare enough and the player would eventually ‘lose’ anyway, but this would be incredibly frustrating if it were to happen when you <em>finally</em> get far into the level. So that brings us to the topic of this post: how to generate playable, grid-based levels with maximum gap sizes.</p>
+<h3 id="2-the-basics">2. The Basics</h3>
+<p>The levels in Guinea Pug are generated as multiple segments, and each segment is a lattice of some size. So for sake of simplicity, let’s fix that size so that each segment is a 7x14 grid (7 tiles wide and 14 tiles long). A segment starts out empty, and then gets populated with tiles on which the player can hop. In practice we use a function GenerateRandomRow() for that, which for each row randomly selects the number of non-empty tiles and their locations. Figure 1 below demonstrates what such a randomly filled segment looks like.</p>
+<figure>
+    <img src="FullyRandom.png#center"
+         alt="Figure 1: Starting with an entirely empty segment (left) of size 7x14, generating a random filling of tiles could result in the fully random segment shown on the right. For each of the 14 rows, a function GenerateRandomRow() determines how many non-empty tiles the row will have and then randomly selects those locations in the row." height="400"/> <figcaption>
+            <p>Figure 1: Starting with an entirely empty segment (left) of size 7x14, generating a random filling of tiles could result in the fully random segment shown on the right. For each of the 14 rows, a function GenerateRandomRow() determines how many non-empty tiles the row will have and then randomly selects those locations in the row.</p>
+        </figcaption>
+</figure>
+
+<p>The player in Guinea Pug has controls that allow it to hop over gaps of size 1, but gaps of size 2 are only doable once enough speed has been built up. Gaps of size 3 are impossible, and the game therefore requires skill on the player’s side to quickly plan ahead and avoid such routes that involve gaps of size 3.</p>
+<p>So, to prevent such impossible gaps we came up with two types of segments: 1) randomly-generated-and-then-patched-up and 2) guaranteed-paths-available. Since the second type is a bit easier, let’s start with those.</p>
+<h3 id="3-path-based-segments">3. Path-based segments</h3>
+<p>The idea behind path-based segments is that we can guarantee that a path is always available. This is actually quite simple, and here is a bit of pseudo code to show that off. There are some caveats to this, and I’ll do my best to mention them in the text.</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">GenerateRandomPath</span>()
+{
+    <span style="color:#75715e">// Generate an array of size width-by-length and fill it with empty tiles
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">segment</span>[ <span style="color:#a6e22e">width</span>, <span style="color:#a6e22e">length</span> ] = <span style="color:#ae81ff">0</span>
+
+	  <span style="color:#75715e">// Start at the first row, and at a random column
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">currentPosition</span> = (<span style="color:#a6e22e">random_tile_in_x</span>, <span style="color:#a6e22e">row_0</span>)
+
+	  <span style="color:#75715e">// Keep taking random steps until we reach the end of the segment!
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">while</span> (<span style="color:#a6e22e">currentDistance</span> &lt; <span style="color:#a6e22e">length</span>)
+    {
+        <span style="color:#75715e">// Set tile
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">tiles</span>[ <span style="color:#a6e22e">currentPosition</span>.<span style="color:#a6e22e">x</span>, <span style="color:#a6e22e">currentPosition</span>.<span style="color:#a6e22e">y</span> ] = <span style="color:#ae81ff">1</span>;
+
+        <span style="color:#75715e">// Pick a random direction (E, NE, N, NW or W)
+</span><span style="color:#75715e"></span>	      <span style="color:#75715e">// It is here we could make sure that on average NE, N, NW are more likely
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">Direction</span> <span style="color:#a6e22e">dir</span> = <span style="color:#a6e22e">PickRandomForwardDirection</span>();
+
+	      <span style="color:#75715e">// In practice, we should check here if the new position is within our grid!
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">currentPosition</span> <span style="color:#f92672">+=</span> <span style="color:#a6e22e">dir</span>;
+
+	      <span style="color:#75715e">// Only increase the distance if we took a forward step
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">d</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">NW</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">d</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">N</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">d</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">NE</span>)
+            <span style="color:#a6e22e">currentDistance</span> <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>;
+    }
+}</code></pre></td></tr></table>
+</div>
+</div>
+<p>Let’s quickly go over the essence of this code. We start at a random location in the first row (i.e. row 1 out of 14), and take size-1 steps in the forward, left, right or forward diagonal directions. Now, we could keep track of which direction we took a step in so that in the next step we don’t backtrack to the previous location. Incidentally though, as long as we don’t take steps backwards, re-visiting tiles by moving left and right (or W and E) is actually fine and results in wider paths overall. We just have to make sure that on average you move forward so that you reach the end of the segment. Figure 2 shows such a randomly generated path.</p>
+<figure>
+    <img src="OnePath.png#center"
+         alt="Figure 2: A single random path, generated through a simple random walk with an average forward direction per step (and never a step backwards, although left&amp;amp;right backtracking is allowed)." height="400"/> <figcaption>
+            <p>Figure 2: A single random path, generated through a simple random walk with an average forward direction per step (and never a step backwards, although left&amp;right backtracking is allowed).</p>
+        </figcaption>
+</figure>
+
+<p>All-in-all this is just a directed random walk, and various extensions are possible. For Guinea Pug however, we kept to the basics and instead complete these types of segments by generating multiple paths, so that there isn’t just a single strand to follow. This was important for us because we’re going to have special tiles like boosts that can boost the player off of the track. Having a single strand that happens to have a few boost tiles one after the other becomes unfair again. A few examples of completed segments of this type are shown in Figure 3.</p>
+<figure>
+    <img src="RandomPaths.png#center"
+         alt="Figure 3: Random segments generated using the path-based method described in the article. Depending on the difficulty, and also on the size of the segment of course, the number of random paths can be adjusted." height="400"/> <figcaption>
+            <p>Figure 3: Random segments generated using the path-based method described in the article. Depending on the difficulty, and also on the size of the segment of course, the number of random paths can be adjusted.</p>
+        </figcaption>
+</figure>
+
+<h3 id="4-random-segments-with-patched-up-holes">4. Random segments with patched-up holes</h3>
+<p>The other type of segments in Guinea Pug is initially generated entirely randomly like in Fig 1. What is left then is to make sure no impossible gaps are present. We’ve concluded that gaps of size 3 are impossible with the current player mechanic, and that gaps of size 2 are possible with enough speed. For playability and to be able to make things easier based on difficulty settings, we use a variable minimal_gap_size to generate segments with denser or less dense tile coverings. We could for example set the minimal_gap_size to $\sqrt{2}$, so that diagonal gaps of 1 tile are the largest that occur.</p>
+<p>To fix those gaps, we have to scan our segment and for every tile deduce what the shortest gap to another tile in the forward direction is. If this gap is larger than the minimal, we will have to add a tile in a location that makes this minimal gap at most minimal_gap_size. The pseudo-code for how we do that would be something like this:</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">FixGaps</span>()
+{
+    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">each</span> <span style="color:#a6e22e">row</span>:
+        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">each</span> <span style="color:#a6e22e">non</span><span style="color:#f92672">-</span><span style="color:#a6e22e">empty</span> <span style="color:#a6e22e">tile</span> <span style="color:#a6e22e">in</span> <span style="color:#a6e22e">this</span> <span style="color:#a6e22e">row</span>:
+            <span style="color:#66d9ef">float</span> <span style="color:#a6e22e">distance</span> = <span style="color:#a6e22e">DistanceToNearestTile</span>(<span style="color:#a6e22e">row</span>, <span style="color:#a6e22e">tile</span>);
+
+            <span style="color:#75715e">// Add a tile if required
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">distance</span> &gt; <span style="color:#a6e22e">minimal_gap_size</span>) {
+		             <span style="color:#75715e">// This next bit is extremely simplified; in practise you would have
+</span><span style="color:#75715e"></span>		             <span style="color:#75715e">// to check if the new location (tile+dir) is within the grid, for example
+</span><span style="color:#75715e"></span>                 <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">dir</span> = <span style="color:#a6e22e">PickRandomDirection</span>();
+                 <span style="color:#a6e22e">segment</span>[<span style="color:#a6e22e">tile</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">dir</span>, <span style="color:#a6e22e">row</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] = <span style="color:#ae81ff">1</span>;
+            }
+}</code></pre></td></tr></table>
+</div>
+</div>
+<p>In case you are interested, the DistanceToNearestTile() function is also fairly straightforward:</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">DistanceToNearestTile</span>(<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">r</span>, <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">t</span>)
+{
+    <span style="color:#75715e">// Check tile distances in the forward direction
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">array</span> <span style="color:#a6e22e">distances</span> = <span style="color:#a6e22e">empty_array</span>();
+
+    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">the</span> <span style="color:#a6e22e">next</span> <span style="color:#ae81ff">3</span> <span style="color:#a6e22e">rows</span>:
+        <span style="color:#75715e">// Can&#39;t check beyond the segment
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">row</span> <span style="color:#f92672">&gt;=</span> <span style="color:#a6e22e">length</span>)
+            <span style="color:#66d9ef">continue</span>;
+
+    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">each</span> <span style="color:#a6e22e">non</span><span style="color:#f92672">-</span><span style="color:#a6e22e">empty</span> <span style="color:#a6e22e">tile</span> <span style="color:#a6e22e">in</span> <span style="color:#a6e22e">the</span> <span style="color:#a6e22e">row</span>:
+        <span style="color:#75715e">// The variable t is the x-coordinate of the tile
+</span><span style="color:#75715e"></span>		    <span style="color:#75715e">// we are currently checking, and r is its row. The variables tile and row are
+</span><span style="color:#75715e"></span>		    <span style="color:#75715e">// the ones we are looping over.
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">float</span> <span style="color:#a6e22e">distance</span> = <span style="color:#a6e22e">Mathf</span>.<span style="color:#a6e22e">Sqrt</span>((<span style="color:#a6e22e">tile</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">t</span>) <span style="color:#f92672">*</span> (<span style="color:#a6e22e">tile</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">t</span>) <span style="color:#f92672">+</span> (<span style="color:#a6e22e">row</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">r</span>) <span style="color:#f92672">*</span> (<span style="color:#a6e22e">row</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">r</span>));
+        <span style="color:#a6e22e">distances</span>.<span style="color:#a6e22e">Add</span>(<span style="color:#a6e22e">distance</span>);
+
+    <span style="color:#a6e22e">distances</span>.<span style="color:#a6e22e">Sort</span>();
+
+    <span style="color:#75715e">// If there are no tiles within the next few rows, the distance is infinite
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// for our practical purposes
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">distances</span>.<span style="color:#a6e22e">Count</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">Mathf</span>.<span style="color:#a6e22e">Infinity</span>;
+
+    <span style="color:#75715e">// Otherwise return the shortest distance
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">distances</span>[<span style="color:#ae81ff">0</span>];
+}</code></pre></td></tr></table>
+</div>
+</div>
+<p>Finally, the fixed example of Fig 1, with a minimal_gap_size set to $\sqrt{2}$ is shown next in in Fig 4.</p>
+<figure>
+    <img src="PatchedRandom.png#center"
+         alt="Figure 4: The random segment from Figure 1, but now with gaps larger than $\sqrt{2}$ filled with new tiles. This way, there is a guaranteed path for the player with gaps that are never larger than $\sqrt{2}$." height="400"/> <figcaption>
+            <p>Figure 4: The random segment from Figure 1, but now with gaps larger than $\sqrt{2}$ filled with new tiles. This way, there is a guaranteed path for the player with gaps that are never larger than $\sqrt{2}$.</p>
+        </figcaption>
+</figure>
+
+<h3 id="5-bonus-boost-placement">5. Bonus: Boost placement</h3>
+<p>Now that we have segments, we can spend a few minutes describing how we place boosts at locations that make sense. Boost placement is done using our ‘special-tile-distributor’, which is our fancy name for a pattern recognizer. Essentially, the distributor scans a segment for particular configurations of tiles and holes where boost make sense and are fun. For example, if the player doesn’t have full speed and isn’t able to make a gap of size 2 (maybe because they had to slow down for a more skill-based segment), having a boost tile right at the edge of that size-2 gap comes in very handy! Likewise, we have boosts that point diagonally over $2\sqrt{2}$ gaps too, like in Figure 5.</p>
+<figure>
+    <img src="BoostPlacement.png#center"
+         alt="Figure 5: A few example boost placements, after detecting size-2 gaps and size-$2\sqrt{2}$ gaps. The possibilities are endless, and only require writing a specific pattern detector." height="400"/> <figcaption>
+            <p>Figure 5: A few example boost placements, after detecting size-2 gaps and size-$2\sqrt{2}$ gaps. The possibilities are endless, and only require writing a specific pattern detector.</p>
+        </figcaption>
+</figure>
+
+<p>Lastly, we should mention that all of these boost placements also involve collectibles. This gives the player a good incentive to use them, and we in turn make good use of this by having just a few special placements of boosts that encourage the player to take a risk and get boosted off-of the level… ;)</p>
+<p>But we’ll leave that for you to discover in-game!</p>
+<p>We hope you have fun playing Guinea Pug, and perhaps recognize some of the boost placements and types of randomly generated segments. Guinea Pug is available on the App store and on the Play store.</p>
+
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+    <footer>
+    <div class="container mt-5">
+
+    <div class="row py-5">
+      <div class="col-12 mx-auto text-center">
+        <h5>Resources</h5>
+        <ul class="list-unstyled text-small">
+          <li><a class="text-muted" href="#">Press kit</a></li>
+        </ul>
+      </div>
+    </div>
+    </div>
+
+    <div class="sub-footer">
+      <div class="col-lg-6 col-sm-12 mx-auto text-center">
+        <p><a href="/privacy">Privacy policy</a> &#9679; <a href="/terms">Terms of Service</a></p>
+      </div>
+    </div>
+
+</footer>
+  </body>
+
+</html>
