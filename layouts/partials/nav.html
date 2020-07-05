@@ -1,12 +1,12 @@
 <nav class="site-header">
     <div class="container-lg d-flex flex-column flex-lg-row">
 
-        <a class="navbar-brand mr-auto" href="#" aria-label="Logo">
+        <a class="navbar-brand mr-auto" href="#" aria-label="Logo" href="/">
             {{ $logo := resources.Get "img/gp_logo.svg" | minify}}
             <img class="img-fluid" src="{{ $logo.Permalink }}" alt="">
           </a>
     
-      <a class="d-none d-lg-inline-block" href="#">Blog</a>
+      <a class="d-none d-lg-inline-block" href="/blog">Blog</a>
       <a class="d-none d-lg-inline-block" href="#">Press kit</a>
       <a class="d-none d-lg-inline-block" href="#">About</a>
       <a class="d-none d-lg-inline-block" href="#">Contact</a>
