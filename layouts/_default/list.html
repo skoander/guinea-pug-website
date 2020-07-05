@@ -9,22 +9,30 @@
   </head>
   <body>
     <main aria-role="main">
+      <div class="container-lg">
+        <div class="row">
         {{ partial "nav.html" . }}
+      </div>
+      <div class="row">
         {{ partial "breadcrumbs.html" . }}
+      </div>
 
-        <div class="container-lg">
+        
           <div class="row">
             <div class="col-xs-12 col-lg-8 offset-lg-2 content-text-container">
                 <h1>{{.Title}}</h1>
 
-                  <!-- Ranges through content/posts/*.md -->
+                <article class="col-xs-12">
                   {{ range .Pages }}
-                      <li>
-                          <a href="{{.Permalink}}">{{.Date.Format "2006-01-02"}} | {{.Title}}</a>
-                      </li>
-
-                      <hr>
+                  <a href="{{.Permalink}}">
+                  <h4>{{.Title}}</h4>
+                  <small>Published on {{.Date.Format "2006-01-02"}} by {{.Params.Author}}</small>
+                  <p class="lead">{{.Params.Summary}}</p>
+                  <button class="btn btn-secondary d-block mt-3">Read article</button>
+                  </a>
                   {{ end }}
+                </article>
+                  
             </div>
           </div>
         </div>

@@ -9,10 +9,13 @@
   </head>
   <body>
     <main aria-role="main">
+      <div class="container-lg">
+        <div class="row">
         {{ partial "nav.html" . }}
+      </div>
+      <div class="row">
         {{ partial "breadcrumbs.html" . }}
-
-        <div class="container-lg">
+      </div>
           <div class="row">
             <div class="col-xs-12 col-lg-8 offset-lg-2 content-text-container">
                 <h1>{{.Title}}</h1>

@@ -1,4 +1,5 @@
-.site-header, .sub-footer, footer {
+nav:not(.breadcrumb-nav), .sub-footer, footer {
+
     a, p {
         padding: 1rem;
         margin-bottom: 0;
@@ -8,7 +9,7 @@
     a {
         &.navbar-brand {
             padding: 0.5rem;
-            width: 10rem;
+            width: 5rem;
         }
     }
     
@@ -21,5 +22,14 @@
 
     li {
         font-size: 1.2rem;
+    }
+}
+
+.navbar-dark .navbar-toggler {
+    border: none;
+
+    span.navbar-toggler-icon{
+        width: 3.5rem;
+        height: 3.5rem;
     }
 }

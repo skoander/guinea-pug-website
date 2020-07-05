@@ -1,14 +1,25 @@
-<nav class="site-header">
-    <div class="container-lg d-flex flex-column flex-lg-row">
+<nav class="navbar navbar-dark navbar-expand-lg justify-content-end w-100">
+  <a class="navbar-brand mr-auto" aria-label="Logo" href="/">
+    {{ $logo := resources.Get "img/gp_logo.svg" | minify}}
+    <img class="img-fluid" src="{{ $logo.Permalink }}" alt="">
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span>Menu </span><span class="navbar-toggler-icon"></span>
+  </button>
 
-        <a class="navbar-brand mr-auto" aria-label="Logo" href="/">
-            {{ $logo := resources.Get "img/gp_logo.svg" | minify}}
-            <img class="img-fluid" src="{{ $logo.Permalink }}" alt="">
-          </a>
-    
-      <a class="d-none d-lg-inline-block" href="/blog">Blog</a>
-      <a class="d-none d-lg-inline-block" href="#">Press kit</a>
-      <a class="d-none d-lg-inline-block" href="#">About</a>
-      <a class="d-none d-lg-inline-block" href="#">Contact</a>
-    </div>
+  <div class="collapse navbar-collapse flex-grow-0" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/blog">Blog</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/presskit">Press kit</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/contact">Contact us</a>
+      </li>
+      <!-- <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li> -->
+    </ul>
 </nav>

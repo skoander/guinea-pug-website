@@ -1,4 +1,5 @@
 ---
 title: "Home"
-subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut a augue vitae orci placerat imperdiet eget ac neque. Sed luctus, diam et auctor sodales, mauris quam eleifend libero, vel convallis enim nisl sit amet mi. Praesent tempus felis eu gravida. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut a augue vitae orci placerat imperdiet eget ac neque."
+heading: "Coming soon for iOS & Android"
+subtitle: "An endless hopper featuring a paraphlegic pug suspended in a stasis field. We know, it's a bit much."
 ---
