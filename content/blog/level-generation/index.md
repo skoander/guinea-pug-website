@@ -8,7 +8,7 @@ mathjax: true
 ---
 
 ### 1\. Intro
-At the end of march this year, we spontaneously decided to participate in the 46th edition of Ludum Dare. If you’ve never heard of LD, you should know that it is one of the best-known (bi-)annual game jams. In a game jam, you are given X amount of time (in our case, 72 hours) to create a game from scratch. So in April 2020 -- we did: meet Guinea Pug.
+At the end of March this year, we spontaneously decided to participate in the 46th edition of Ludum Dare. If you’ve never heard of LD, you should know that it is one of the best-known (bi-)annual game jams. In a game jam, you are given X amount of time (in our case, 72 hours) to create a game from scratch. So in April 2020 -- we did: meet Guinea Pug.
 
 Guinea Pug is an “endless runner” game, with a procedurally generated level that has obstacles and special effects. It’s more of what I like to call an “endless hopper”, where the player controls a ragdoll pug suspended in a stasis field (yes, you read that right) and is tasked with hopping around on tiles whilst avoiding holes and gaps.
 

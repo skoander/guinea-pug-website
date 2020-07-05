@@ -2,6 +2,7 @@ baseURL = "https://guineapug.com"
 languageCode = "en-us"
 title = "Guinea Pug - Coming soon for Android & iOS!"
 publishDir = "docs"
+pluralizelisttitles = "false"
 
 [markup]
   [markup.goldmark]

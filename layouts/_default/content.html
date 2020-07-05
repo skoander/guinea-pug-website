@@ -5,22 +5,23 @@
     <title>{{ block "title" . }}
       Guinea Pug - {{ .Title }}
     {{ end }}</title>
-    {{ $style := resources.Get "sass/main.scss" | toCSS | minify }}
-    <link rel="stylesheet" href="{{ $style.Permalink }}">
+    {{ partial "includes.html" . }}
   </head>
   <body>
     <main aria-role="main">
         {{ partial "nav.html" . }}
         {{ partial "breadcrumbs.html" . }}
 
-        <div class="container mt-5">
-            <div class="col-10">
+        <div class="container-lg">
+          <div class="row">
+            <div class="col-xs-12 col-lg-8 offset-lg-2 content-text-container">
                 <h1>{{.Title}}</h1>
-                <p>{{.Content}}</p>
+                {{.Content}}
             </div>
-
+          </div>
         </div>
 
     </main>
+    {{ partial "footer.html" . }}
   </body>
 </html>

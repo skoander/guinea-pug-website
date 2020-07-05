@@ -5,14 +5,8 @@
     <title>{{ block "title" . }}
         Guinea Pug - {{ .Title }}
     {{ end }}</title>
-    {{ $style := resources.Get "sass/main.scss" | toCSS | minify }}
-
-
     <meta name="description" content="{{.Params.Summary}}">
-    <link rel="stylesheet" href="{{ $style.Permalink }}">
-
-    {{ if .Params.mathjax }}{{ partial "mathjax.html" . }}{{ end }}
-
+    {{ partial "includes.html" . }}
   </head>
 
   <body>
@@ -20,21 +14,22 @@
         {{ partial "nav.html" . }}
         {{ partial "breadcrumbs.html" . }}
 
-        <div class="container mt-5">
+        <div class="container-lg">
             <div class="row">
-                <div class="col-10">
+                <div class="col-xs-12 col-lg-8 offset-lg-2 content-text-container">
                     <h1>{{.Title}}</h1>
-                    <p class="lead">
+                    <p class="lead intro">
                         by {{.Params.Author}}
                     </p>
-                    <p>Posted on {{dateFormat "Monday, Jan 2, 2020" .Date}}</p>
-                    <p class="pt-5">{{.Content}}</p>
+                    <p class="intro">Posted on {{dateFormat "Monday, Jan 2, 2020" .Date}}</p>
+                    {{.Content}}
                 </div>
             </div>
 
         </div>
 
     </main>
+    {{ partial "footer.html" . }}
   </body>
 
 </html>
