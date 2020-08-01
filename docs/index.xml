@@ -12,6 +12,16 @@
     
     
     <item>
+      <title>Mobile Store Screenshots</title>
+      <link>https://guineapug.com/posts/mobile-store-screenshots/</link>
+      <pubDate>Thu, 30 Jul 2020 23:54:32 +0200</pubDate>
+      
+      <guid>https://guineapug.com/posts/mobile-store-screenshots/</guid>
+      <description>1. The Problem If you&amp;rsquo;ve ever published an app on a mobile store like Google&amp;rsquo;s Play Store or Apple&amp;rsquo;s App Store, you&amp;rsquo;ll have gone through the trouble of preparing mandatory screenshots at god knows how many resolutions. On the App Store, for example, you&amp;rsquo;ll need screenshots for 5.5&amp;rdquo; devices, 6.5&amp;rdquo; devices and &amp;hellip;
+Now you could &amp;ndash;theoretically&amp;ndash; run your game in a simulator a few times and take screenshots. But how will you reproduce the same screenshot every time for the different resolutions?</description>
+    </item>
+    
+    <item>
       <title>Procedural level generation in video games using Unity</title>
       <link>https://guineapug.com/blog/procedural-level-generation-in-video-games-using-unity/</link>
       <pubDate>Thu, 02 Jul 2020 23:54:32 +0200</pubDate>
