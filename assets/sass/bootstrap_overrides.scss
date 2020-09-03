@@ -1,14 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;700&display=swap");
 
 $font-family-body: Didact Gothic;
 $font-family-heading: Ubuntu;
 $font-family-base: $font-family-body !default;
 
-$primary: #1F1E2E;
-$secondary: #0CCA98;
-$tertiary: #4B4B57;
-$white: #FFFF;
+$primary: #1f1e2e;
+$secondary: #0cca98;
+$tertiary: #4b4b57;
+$white: #ffff;
 
-
-  
+$primary-gradient: linear-gradient(#837fc0, #5850dc 100vh);

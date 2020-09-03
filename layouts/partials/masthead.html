@@ -1,36 +1,43 @@
-<header class="masthead w-100">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-5 col-md-12 intro">
-          <h1>{{.Params.heading}}</h1>
-          <p>{{.Params.subtitle}}</p>
+<header class="masthead w-100 mb-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-5 col-md-12 intro">
+        <h1>{{.Params.heading}}</h1>
+        <p>{{.Params.subtitle}}</p>
 
-          <div class="d-flex d-lg-none">
-            <div class="embed-responsive embed-responsive-16by9">
-              <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/NpEaa2P7qZI?rel=0" allowfullscreen></iframe>
+        <div class="d-flex d-lg-none">
+          <div class="embed-responsive embed-responsive-16by9">
+            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/NpEaa2P7qZI?rel=0"
+              allowfullscreen></iframe>
+          </div>
+        </div>
+
+        <div id="mc_embed_signup">
+          <form
+            action="https://guineapug.us10.list-manage.com/subscribe/post?u=4e273d18c24edcfbe5d0d7b91&amp;id=3f302b00dd"
+            method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank" novalidate>
+            <h5>Be the first to hear when we release</h5>
+            <div class="form-group">
+              <input type="email" value="" name="EMAIL" class="form-control" id="mce-EMAIL" placeholder="email address">
             </div>
-          </div>
+            <div id="mce-responses">
+              <div class="response" id="mce-error-response" style="display:none"></div>
+              <div class="response" id="mce-success-response" style="display:none"></div>
+            </div>
+            <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+            <div style="position: absolute; left: -5000px;" aria-hidden="true">
+              <input type="text" name="b_4e273d18c24edcfbe5d0d7b91_3f302b00dd" tabindex="-1" value="">
+            </div>
+            <button type="submit" value="Get notified" name="subscribe" id="mc-embedded-subscribe"
+              class="btn btn-secondary">Get notified ⏰</button>
+          </form>
+        </div>
 
-          <div id="mc_embed_signup">
-            <form action="https://guineapug.us10.list-manage.com/subscribe/post?u=4e273d18c24edcfbe5d0d7b91&amp;id=3f302b00dd" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank" novalidate>
-              <h5>Be the first to hear when we release</h5>
-              <div class="form-group">
-                  <input type="email" value="" name="EMAIL" class="form-control" id="mce-EMAIL" placeholder="email address">
-              </div>
-              <div id="mce-responses">
-                <div class="response" id="mce-error-response" style="display:none"></div>
-                <div class="response" id="mce-success-response" style="display:none"></div>
-              </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-              <div style="position: absolute; left: -5000px;" aria-hidden="true">
-                <input type="text" name="b_4e273d18c24edcfbe5d0d7b91_3f302b00dd" tabindex="-1" value="">
-              </div>
-              <button type="submit" value="Get notified" name="subscribe" id="mc-embedded-subscribe" class="btn btn-secondary">Get notified ⏰</button>
-            </form>
-          </div>
+        <script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script>
+        <script
+          type='text/javascript'>(function ($) { window.fnames = new Array(); window.ftypes = new Array(); fnames[0] = 'EMAIL'; ftypes[0] = 'email'; fnames[1] = 'FNAME'; ftypes[1] = 'text'; fnames[2] = 'LNAME'; ftypes[2] = 'text'; fnames[3] = 'ADDRESS'; ftypes[3] = 'address'; fnames[4] = 'PHONE'; ftypes[4] = 'phone'; fnames[5] = 'BIRTHDAY'; ftypes[5] = 'birthday'; }(jQuery)); var $mcj = jQuery.noConflict(true);</script>
 
-<script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script><script type='text/javascript'>(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='FNAME';ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';fnames[3]='ADDRESS';ftypes[3]='address';fnames[4]='PHONE';ftypes[4]='phone';fnames[5]='BIRTHDAY';ftypes[5]='birthday';}(jQuery));var $mcj = jQuery.noConflict(true);</script>
-
-          <!-- <ul class="list-group store-link-list list-group-horizontal mt-5 mb-5">
+        <!-- <ul class="list-group store-link-list list-group-horizontal mt-5 mb-5">
             <li class="list-group-item">
               <a href=''>
                 {{ $resource := resources.Get "img/googleplay.jpg" | minify}}
@@ -45,13 +52,14 @@
               </a>
             </li>
           </ul> -->
-        </div>
+      </div>
 
-        <div class="d-none d-lg-flex col-lg-6 offset-lg-1 col-md-12 align-self-center">
-          <div class="embed-responsive embed-responsive-16by9">
-            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/NpEaa2P7qZI?rel=0" allowfullscreen></iframe>
-          </div>
+      <div class="d-none d-lg-flex col-lg-6 offset-lg-1 col-md-12 align-self-center">
+        <div class="embed-responsive embed-responsive-16by9">
+          <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/NpEaa2P7qZI?rel=0"
+            allowfullscreen></iframe>
         </div>
       </div>
     </div>
-  </header>
+  </div>
+</header>

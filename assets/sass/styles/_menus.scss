@@ -1,18 +1,23 @@
-nav:not(.breadcrumb-nav), .sub-footer, footer {
-
-    a, p {
+nav:not(.breadcrumb-nav),
+.sub-footer,
+footer {
+    a,
+    p {
         padding: 1rem;
         margin-bottom: 0;
         font-size: 1.2rem;
     }
-    
+
     a {
         &.navbar-brand {
             padding: 0.5rem;
             width: 5rem;
+
+            img {
+                max-width: 6rem;
+            }
         }
     }
-    
 }
 
 .breadcrumb {
@@ -28,7 +33,7 @@ nav:not(.breadcrumb-nav), .sub-footer, footer {
 .navbar-dark .navbar-toggler {
     border: none;
 
-    span.navbar-toggler-icon{
+    span.navbar-toggler-icon {
         width: 3.5rem;
         height: 3.5rem;
     }

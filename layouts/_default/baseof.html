@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>{{ block "title" . }}
-      Guinea Pug - {{ .Title }}
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ block "title" . }}
+    Guinea Pug - {{ .Title }}
     {{ end }}</title>
 
-    {{ partial "includes.html" . }}
-  </head>
-  <body>
-    {{ block "main" . }}
-    {{ end }}
+  {{ partial "includes.html" . }}
+</head>
 
-    {{ block "footer" . }}
-    {{ end }}
-  </body>
+<body>
+  {{ block "main" . }}
+  {{ end }}
+
+  {{ block "footer" . }}
+  {{ end }}
+</body>
+
 </html>

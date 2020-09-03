@@ -3,23 +3,15 @@
     {{ $logo := resources.Get "img/gp_logo.svg" | minify}}
     <img class="img-fluid" src="{{ $logo.Permalink }}" alt="">
   </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span>Menu </span><span class="navbar-toggler-icon"></span>
   </button>
 
   <div class="collapse navbar-collapse flex-grow-0" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="/blog">Blog</a>
-      </li>
-      <li class="nav-item">
         <a class="nav-link" href="/presskit">Press kit</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/contact">Contact us</a>
-      </li>
-      <!-- <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-      </li> -->
     </ul>
 </nav>

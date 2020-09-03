@@ -1,19 +1,21 @@
 {{ define "main" }}
-<main aria-role="main">
+<main aria-role="main" class="mb-5">
     <div class="container-lg">
         <div class="row">
             {{ partial "nav.html" . }}
         </div>
-      <div class="row">
-        {{ partial "masthead.html" . }}
+        <div class="row">
+            {{ partial "masthead.html" . }}
         </div>
         <div class="row">
-    {{ partial "leaderboard.html" . }}
+            {{ partial "leaderboard.html" . }}
         </div>
+        <div class="row">
+            {{ partial "social.html" . }}
         </div>
+    </div>
 </main>
 {{ end }}
 {{ define "footer"}}
 {{ partial "footer.html" . }}
 {{end}}
-

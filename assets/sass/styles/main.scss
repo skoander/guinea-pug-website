@@ -1,11 +1,10 @@
 @import "_typography";
 @import "_masthead";
 @import "_menus";
-@import "_blog";
-@import "_buttons";
+@import "_footer";
 
 body {
-    background: linear-gradient($primary, #2E1E1E);
+    background: $primary-gradient;
     color: $white;
     min-height: 100vh;
 }
@@ -14,4 +13,4 @@ body {
     body {
         padding-top: 5rem;
     }
-  }
+}
