@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/notredamstra/guinea-pug-website#readme",
   "dependencies": {
-    "bootstrap": "^4.5.1"
+    "bootstrap": "^4.5.2"
   }
 }
