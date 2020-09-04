@@ -1,24 +1,60 @@
 .masthead {
-  padding-top: 5rem;
+  img.logo {
+    padding-bottom: 5rem;
+    width: 20%;
+  }
+
+  span.subtitle {
+    font-size: 1.2rem;
+  }
 
   h1 {
     margin-top: 0;
   }
 
-  .store-link-list{
+  h2 {
+    span {
+      font-size: 1rem;
+    }
+  }
 
+  .store-link-list {
     li {
       border: none;
       background: none;
 
       a {
-        display: inline-block; 
+        display: inline-block;
         img {
-          border: 1px solid $secondary;
+          border: 1px solid $white;
           border-radius: 6px;
         }
       }
     }
-    
+  }
+
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    height: 100px;
+    width: 100px;
+    background-size: 100%, 100%;
+    background-image: none;
+  }
+
+  .carousel-control-next-icon:after {
+    content: "\203A";
+    font-size: 55px;
+    color: $primary;
+  }
+
+  .carousel-control-prev-icon:after {
+    content: "\2039";
+    font-size: 55px;
+    color: $primary;
+  }
+
+  .carousel-control-prev,
+  .carousel-control-next {
+    color: $primary;
   }
 }
